@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Mendefinisikan instance
+region="us-east-1"
+instance_id="i-1234567890abcdefg"
+start_time="08:00"
+stop_time="18:00"
+
+# Mendapatkan waktu saat ini
+current_time=$(date +%H:%M)
+
+# Memulai instance jika waktu saat ini kurang dari waktu mulai
+if [[ "$current_time" < "$start_time" ]]; then
+    echo "Starting instance..."
+    aws ec2 start-instances --region $region --instance-ids $instance_id
+fi
+
+# Menghentikan instance jika waktu saat ini lebih dari waktu berhenti
+if [[ "$current_time" > "$stop_time" ]]; then
+    echo "Stopping instance..."
+    aws ec2 stop-instances --region $region --instance-ids $instance_id
+fi
